@@ -3,7 +3,7 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../config/database.php';
-    include_once '../class/orders.php';
+    include_once '../class/product.php';
     include_once '../class/tableMeta.php';
 
     $database = new Database();
@@ -20,7 +20,7 @@
         $tableMeta = new tableMeta();
         $tableMeta->Deletable = true;
         $tableMeta->Insertable = true;
-        $tableMeta->Name = "orders";
+        $tableMeta->Name = "product";
 
         $table_names = $stmt->fetchAll(PDO::FETCH_COLUMN);
         foreach($table_names as $col) {

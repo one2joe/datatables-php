@@ -6,7 +6,7 @@
     header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
     
     include_once '../config/database.php';
-    include_once '../class/orders.php';
+    include_once '../class/product.php';
     
 
 
@@ -24,8 +24,8 @@
     $data = json_decode($json);
     
     foreach( $data as $x){
-        $orders=new Orders($db);
-        $sqlQuery = "UPDATE  orders SET ";
+        $product=new Orders($db);
+        $sqlQuery = "UPDATE  product SET ";
     foreach( $x as $y => $val) {
         if( $val!=''  && !(preg_match("/^[\w. ]+$/",$val) == 1 && preg_match("/^[\w. ]+$/",$y) == 1 )) {
 
@@ -39,11 +39,11 @@
             // $badInput=true;
          }
         if($y=='rowid'){
-            $orders->ID=htmlspecialchars(strip_tags($val));
+            $product->ID=htmlspecialchars(strip_tags($val));
         }else 
         {
             $sqlQuery.=  $y." = :" . $y. ",";
-            $orders->$y=htmlspecialchars(strip_tags($val));
+            $product->$y=htmlspecialchars(strip_tags($val));
         
         }
     }
@@ -54,8 +54,8 @@
     $stmt = $db->prepare($sqlQuery);
     foreach( $x as $y => $val) {
         if($y=='rowid')
-                $stmt->bindParam(":ID", $orders->ID);
-            else    $stmt->bindParam(":".$y, $orders->$y);
+                $stmt->bindParam(":ID", $product->ID);
+            else    $stmt->bindParam(":".$y, $product->$y);
     }
     $stmt->execute();
 }

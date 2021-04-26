@@ -3,7 +3,7 @@
     header("Content-Type: application/json; charset=UTF-8");
     
     include_once '../config/database.php';
-    include_once '../class/orders.php';
+    include_once '../class/product.php';
     include_once '../class/tableMeta.php';
 
     $database = new Database();
@@ -28,12 +28,14 @@
     if (strlen($search)  > 2)
     {
         $whereclause = " where (
-ORD_NUM like '%".$search."%' or 
-ORD_AMOUNT like '%".$search."%' or 
-ADVANCE_AMOUNT like '%".$search."%' or 
-CUST_CODE like '%".$search."%' or 
-AGENT_CODE like '%".$search."%' or 
-ORD_DESCRIPTION like '%".$search."%'
+            product_name like '%".$search."%' or 
+            product_brand like '%".$search."%' or 
+            product_cate_id like '%".$search."%' or 
+            product_color like '%".$search."%' or 
+            product_size like '%".$search."%' or 
+            product_amount like '%".$search."%' or 
+            product_price like '%".$search."%' or 
+            product_img like '%".$search."%'
         ) and (1=1 ";
         $whereclause .=  $filterclause . " )";
     }
@@ -41,9 +43,9 @@ ORD_DESCRIPTION like '%".$search."%'
 
 
 
-    $q = "select * from orders " . $whereclause . "  order by " . $sort . " limit " . $length . " offset " . $start . " ";
-    $qCount = "select count(id) as count from orders ";
-    $qFilterCount = "select count(id) as count from orders " . $whereclause ;
+    $q = "select * from product " . $whereclause . "  order by " . $sort . " limit " . $length . " offset " . $start . " ";
+    $qCount = "select count(id) as count from product ";
+    $qFilterCount = "select count(id) as count from product " . $whereclause ;
         
     $db = $database->getConnection();
     $stmtCount = $db->prepare($qCount);
@@ -71,13 +73,14 @@ ORD_DESCRIPTION like '%".$search."%'
             extract($row);
             $e = array(
                 "ID"=>$ID,
-                "ORD_NUM"=>$ORD_NUM,
-                "ORD_AMOUNT"=>$ORD_AMOUNT,
-                "ADVANCE_AMOUNT"=>$ADVANCE_AMOUNT,
-                "ORD_DATE"=>$ORD_DATE,
-                "CUST_CODE"=>$CUST_CODE,
-                "AGENT_CODE"=>$AGENT_CODE,
-                "ORD_DESCRIPTION"=>$ORD_DESCRIPTION
+                "product_name"=>$product_name,
+                "product_brand"=>$product_brand,
+                "product_cate_id"=>$product_cate_id,
+                "product_color"=>$product_color,
+                "product_size"=>$product_size,
+                "product_amount"=>$product_amount,
+                "product_price"=>$product_price,
+                "product_img"=>$product_img
             );
 
             array_push($employeeArr["data"], $e);
