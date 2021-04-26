@@ -27,9 +27,14 @@
     if(!$badInput){
     if (strlen($search)  > 2)
     {
-        $whereclause = " where (ORD_NUM like '%".$search."%' or ORD_AMOUNT like '%".$search."%'
-or ADVANCE_AMOUNT like '%".$search."%' or CUST_CODE like '%".$search."%' or AGENT_CODE like '%".$search."%'
-or ORD_DESCRIPTION like '%".$search."%') and (1=1 ";
+        $whereclause = " where (
+ORD_NUM like '%".$search."%' or 
+ORD_AMOUNT like '%".$search."%' or 
+ADVANCE_AMOUNT like '%".$search."%' or 
+CUST_CODE like '%".$search."%' or 
+AGENT_CODE like '%".$search."%' or 
+ORD_DESCRIPTION like '%".$search."%'
+        ) and (1=1 ";
         $whereclause .=  $filterclause . " )";
     }
     else { $whereclause = "where 1=1 " . $filterclause; }
